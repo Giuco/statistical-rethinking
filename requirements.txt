@@ -1,0 +1,6 @@
+pandas
+numpy
+matplotlib
+pymc3
+pyro-ppl
+jupyterlab
