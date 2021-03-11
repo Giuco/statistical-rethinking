@@ -342,3 +342,5 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm+all,macos,vim,vscode,jupyternotebooks,windows,linux
 
+# PDF
+*.pdf
