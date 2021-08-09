@@ -67,4 +67,4 @@ class CausalModel(CausalGraphicalModel):
             if all(not b.issubset(a) for b in all_adjustment_sets if a != b):
                 filtered_adjustment_sets.append(a)
 
-        return filtered_ajustment_sets
+        return filtered_adjustment_sets
