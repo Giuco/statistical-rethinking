@@ -42,6 +42,10 @@ def simplehist(x: np.ndarray):
     return pd.Series(x).value_counts().sort_index().plot.bar()
 
 
+def create_standardizer_destandardizer(s: np.ndarray) -> np.ndarray:
+    return lambda x: (x - s.mean()) / s.std(), lambda x: (x * s.std()) + s.mean()
+
+
 class CausalModel(CausalGraphicalModel):
     def get_implied_conditional_independencies(self):
         all_independencies = self.get_all_independence_relationships()
