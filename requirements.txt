@@ -5,3 +5,4 @@ pymc3
 pyro-ppl
 jupyterlab
 jupyterlab-git
+lxml
