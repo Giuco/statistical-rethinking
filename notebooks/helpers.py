@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
 from causalgraphicalmodels import CausalGraphicalModel
-from typing import Optional
+from typing import Optional, List, Set
 from scipy import stats
+from itertools import product
 
 
 def lfilter(*args, **kwargs):
@@ -54,3 +55,12 @@ class CausalModel(CausalGraphicalModel):
                 conditional_independencies.append(s)
                 
         return conditional_independencies
+    
+    def get_adjustment_sets(self, x: str, y: str) -> List[Set]:
+        all_adjustment_sets = self.get_all_backdoor_adjustment_sets(x, y)
+        filtered_adjustment_sets = []
+        for a in all_adjustment_sets:
+            if all(not b.issubset(a) for b in all_adjustment_sets if a != b):
+                filtered_adjustment_sets.append(a)
+
+        return filtered_ajustment_sets
