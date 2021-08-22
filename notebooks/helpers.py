@@ -1,9 +1,11 @@
 import pandas as pd
 import numpy as np
 from causalgraphicalmodels import CausalGraphicalModel
-from typing import Optional, List, Set
+import daft
+from typing import Optional, List, Set, Dict, Tuple
 from scipy import stats
 from itertools import product
+from matplotlib import pyplot as plt
 
 
 def lfilter(*args, **kwargs):
@@ -60,11 +62,24 @@ class CausalModel(CausalGraphicalModel):
                 
         return conditional_independencies
     
-    def get_adjustment_sets(self, x: str, y: str) -> List[Set]:
+    def get_adjustment_sets(self, x: str, y: str, disregard: Optional[List[str]] = None) -> List[Set]:
+        if not disregard:
+            disregard = []
         all_adjustment_sets = self.get_all_backdoor_adjustment_sets(x, y)
         filtered_adjustment_sets = []
         for a in all_adjustment_sets:
-            if all(not b.issubset(a) for b in all_adjustment_sets if a != b):
+            if all(not b.issubset(a) for b in all_adjustment_sets if a != b) and all(b not in a for b in disregard):
                 filtered_adjustment_sets.append(a)
 
         return filtered_adjustment_sets
+    
+    def draw_coords(self, coordinates: Dict[str, Tuple[int, int]], aspect: Optional[float] = 1.):
+        pgm = daft.PGM()
+        for node in self.dag.nodes:
+            pgm.add_node(node, node, *coordinates[node], aspect=aspect)
+
+        for edge in self.dag.edges:
+            pgm.add_edge(*edge)
+
+        pgm.render()
+        plt.gca().invert_yaxis()

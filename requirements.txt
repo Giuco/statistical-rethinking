@@ -6,3 +6,4 @@ pyro-ppl
 jupyterlab
 jupyterlab-git
 lxml
+daft
